@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Intensivtagebuch · Luisenhospital Aachen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#FAF7F0;--green:#4A6B62;--pale:#E3ECE8;--beige:#E6DFCF;--text:#6B6258;--dark:#2B2B2B}
+*{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--text);font:16px/1.5 "Work Sans",system-ui,sans-serif}
+main{max-width:760px;margin:0 auto;padding:20px 16px 60px}
+.hero{position:relative;overflow:hidden;background:#fff;border:1px solid var(--beige);border-radius:28px;box-shadow:0 8px 0 var(--green);padding:34px 24px 26px;text-align:center}
+.hero:before{content:"";position:absolute;top:-70px;right:-70px;width:200px;height:200px;border-radius:50%;background:var(--pale)}
+.hero>*{position:relative}
+.eyebrow{font-weight:600;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;margin:0}
+h1,h2,.bookname{font-family:Caveat,"Comic Sans MS",cursive;color:var(--green)}
+h1{font-size:clamp(2.6rem,9vw,4.2rem);margin:6px 0 12px;line-height:1.1}
+.pill{display:inline-block;background:var(--pale);color:var(--green);font-weight:600;border-radius:99px;padding:6px 18px}
+.bookname{display:block;width:min(380px,100%);margin:14px auto 6px;border:0;border-bottom:2px dashed var(--beige);background:none;text-align:center;font-size:2rem;outline:none}
+.bookname::placeholder{color:#b5afa5}
+.logos{display:flex;flex-wrap:wrap;justify-content:center;gap:14px 30px;margin-top:18px}
+.lg{display:flex;align-items:center;gap:10px;text-align:left;font-size:.85rem;font-weight:500;line-height:1.25;color:var(--text)}
+.lg img{height:56px;width:56px;flex:none}
+.actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin:28px 0}
+.btn{font:600 1rem "Work Sans",sans-serif;background:var(--green);color:#fff;border:1.5px solid var(--green);border-radius:99px;padding:14px 26px;cursor:pointer;box-shadow:0 4px 10px #4a6b6240}
+.btn.ghost{background:#fff;color:var(--text);border-color:var(--beige);box-shadow:none;font-weight:500}
+.btn.small{padding:8px 16px;margin-top:10px}
+#calendar{background:#fff;border:1px solid var(--beige);border-radius:20px;padding:16px;margin-bottom:24px}
+.calhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;text-transform:capitalize}
+.nav{border:0;background:var(--pale);color:var(--green);border-radius:50%;width:36px;height:36px;font-size:1.3rem;cursor:pointer}
+.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+.grid i{font-style:normal;font-size:.8rem}
+.day{aspect-ratio:1;border:0;border-radius:12px;background:var(--cream);font:inherit;color:var(--dark);cursor:pointer}
+.day.has{background:var(--pale);font-weight:700;color:var(--green)}
+.day.sel{outline:2px solid var(--green)}
+.entry{position:relative;border-left:4px solid var(--green);padding:6px 0 22px 22px;margin-left:10px}
+.entry:before{content:"";position:absolute;left:-12px;top:8px;width:20px;height:20px;border-radius:50%;border:3px solid var(--green);background:var(--cream)}
+.meta{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.meta b{color:var(--dark);font-size:1.15rem}
+.md{width:14px;height:14px;border-radius:50%}
+.tag{background:var(--pale);color:var(--dark);border-radius:99px;padding:3px 12px;font-size:.88rem}
+.meta time{margin-left:auto;font-size:.9rem}
+.del{border:0;background:none;color:#a09a90;cursor:pointer;font:inherit;font-size:.9rem}
+.txt{font-family:Caveat,cursive;font-size:1.6rem;line-height:1.3;color:var(--dark);white-space:pre-wrap;margin:6px 0}
+.special{margin:4px 0;color:var(--green);font-weight:500}
+.tags{display:flex;flex-wrap:wrap;gap:8px}
+.photos{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.photos img{max-width:220px;max-height:220px;border-radius:14px;border:1px solid var(--beige);object-fit:cover}
+.empty{text-align:center;padding:30px}
+.note{border-top:1px solid var(--beige);margin-top:30px;padding-top:18px;text-align:center;font-size:.9rem}
+dialog{border:0;border-radius:24px;padding:26px;width:min(620px,94vw);max-height:92vh;color:var(--text)}
+dialog::backdrop{background:#0006}
+form{display:grid;gap:16px}
+h2{margin:0;font-size:2.2rem}
+label,legend{font-weight:500}
+label{display:grid;gap:6px}
+fieldset{border:0;padding:0;margin:0}
+legend{margin-bottom:8px}
+small{color:#a09a90;font-weight:400}
+.tx{font:inherit;border:1.5px solid var(--beige);background:var(--cream);border-radius:12px;padding:12px 14px;color:var(--dark)}
+textarea.tx{resize:vertical;font-family:Caveat,cursive;font-size:1.35rem;line-height:1.4;min-height:260px}
+.row{display:flex;flex-wrap:wrap;gap:10px}
+.opt,.mood{position:relative;display:flex;align-items:center;gap:8px;border:1.5px solid var(--beige);border-radius:99px;padding:9px 16px;cursor:pointer;font-weight:400;background:#fff}
+.opt input,.mood input{position:absolute;opacity:0}
+.opt:has(:checked){background:var(--pale);border-color:var(--green);color:var(--dark)}
+.opt:has(:focus-visible),.mood:has(:focus-visible){outline:2px solid var(--green)}
+.mood i{width:14px;height:20px;border-radius:50%;background:var(--c)}
+.mood:has(:checked){border-color:var(--c);box-shadow:0 0 0 2px var(--c)}
+.btns{display:flex;justify-content:flex-end;gap:12px}
+@media print{
+ body{background:#fff}
+ .actions,#calendar,.note,.del{display:none!important}
+ body:not(.pc) dialog{display:none!important}
+ body.pc main{display:none}
+ .hero{box-shadow:none;break-after:page;min-height:60vh}
+ .entry{break-inside:avoid;break-after:page}
+ .photos img{max-width:46%;max-height:none}
+}
+.card{background:#fff;border:1px solid var(--beige);border-radius:20px;padding:22px;margin-top:26px;text-align:center}
+.demo{background:#FFF4D6;border-radius:12px;padding:8px 12px;font-size:.9rem;color:#7a5b00;margin:0 0 14px}
+#loginForm,#createForm{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:12px}
+.code{text-transform:uppercase;letter-spacing:.12em;text-align:center;font-size:1.2rem;min-width:min(340px,100%)}
+details{margin-top:18px;font-size:.95rem}summary{cursor:pointer}
+.msg{color:#8B4A55;font-weight:500;min-height:1.4em;margin:10px 0 0}
+#qr{display:flex;justify-content:center;margin:10px 0}
+.codeBig{font:600 1.4rem/1.2 "Work Sans",monospace;letter-spacing:.12em;text-align:center;color:var(--dark)}
+</style>
+</head>
+<body>
+<main>
+ <header class="hero">
+  <p class="eyebrow">Intensivstation · unser gemeinsames Tagebuch</p>
+  <h1>📔 Intensivtagebuch</h1>
+  <span class="pill">Projektarbeit</span>
+  <p>Konzipiert und umgesetzt von <b>Yaren Eren</b></p>
+  <input id="bookName" class="bookname" placeholder="Name eintragen …" aria-label="Name eintragen">
+  <p>Für Pflegeteam, Ärzt:innen und Angehörige — schreibt gemeinsam, damit nichts verloren geht.</p>
+  <div class="logos">
+   <div class="lg"><img src="logo-luisenhospital.png" alt="Logo Luisenhospital Aachen"><span>Luisenhospital<br>Aachen</span></div>
+   <div class="lg"><img src="logo-cbg.png" alt="Logo CBG"><span>Christliche Bildungsakademie<br>für Gesundheitsberufe Aachen</span></div>
+  </div>
+ </header>
+
+ <section id="login" class="card">
+  <p class="demo">⚠️ Prototyp – bitte nur erfundene Demo-Daten eintragen.</p>
+  <h2>Anmelden</h2>
+  <p>Gib den persönlichen Zugangs-Code ein oder scanne den QR-Code.</p>
+  <form id="loginForm">
+   <input class="tx code" id="codeIn" placeholder="XXXX-XXXX-XXXX-XXXX" autocomplete="off" autocapitalize="characters" required>
+   <button class="btn">Anmelden</button>
+  </form>
+  <details><summary>Team: neues Tagebuch anlegen</summary>
+   <form id="createForm">
+    <input class="tx" id="pinIn" type="password" placeholder="Team-PIN" required>
+    <button class="btn ghost">Tagebuch anlegen</button>
+   </form>
+  </details>
+  <p id="msg" class="msg" role="alert"></p>
+ </section>
+ <div id="app" hidden>
+ <div class="actions">
+  <button id="newBtn" class="btn">＋ Neuer Eintrag</button>
+  <button id="calBtn" class="btn ghost">📅 Monatsansicht</button>
+  <button id="pdfBtn" class="btn ghost">📄 Als PDF speichern</button>
+  <button id="codeBtn" class="btn ghost">🔑 Zugang / QR-Code</button>
+  <button id="outBtn" class="btn ghost">Abmelden</button>
+  <button id="wipeBtn" class="btn ghost">🗑 Tagebuch löschen</button>
+ </div>
+
+ <section id="calendar" hidden></section>
+ <section id="list"></section>
+ <p class="note">Prototyp: Die Einträge liegen auf dem Server (Netlify) und sind mit dem Zugangs-Code von jedem Gerät aus erreichbar. Bitte nur erfundene Demo-Daten verwenden.</p>
+ </div>
+</main>
+<dialog id="codeDlg">
+ <h2>Zugang</h2>
+ <p>Mit diesem Code oder QR-Code kann man sich auf jedem Gerät anmelden. Bitte sicher aufbewahren.</p>
+ <div id="qr"></div>
+ <p class="codeBig" id="codeTxt"></p>
+ <div class="btns"><button class="btn ghost" id="codePrint">Drucken</button><button class="btn" id="codeClose">Schließen</button></div>
+</dialog>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<dialog id="dlg">
+ <form id="f">
+  <h2>Neuer Eintrag</h2>
+  <label>Dein Name
+   <input class="tx" name="name" required placeholder="z. B. Lena (Tochter) oder Team Frühdienst">
+  </label>
+  <fieldset><legend>Wer schreibt?</legend><div class="row" id="who"></div></fieldset>
+  <label>Datum <input class="tx" type="date" name="date" required></label>
+  <label>Was möchtest du festhalten?
+   <textarea class="tx" name="text" rows="9" required placeholder="Schreib einfach, wie du sprichst …"></textarea>
+  </label>
+  <fieldset><legend>Wie war der Tag? <small>(optional)</small></legend><div class="row" id="moods"></div></fieldset>
+  <fieldset><legend>Was ist heute passiert? <small>(optional, mehrfach wählbar)</small></legend><div class="row" id="events"></div></fieldset>
+  <label>Etwas Besonderes passiert <small>(optional)</small><input class="tx" name="special"></label>
+  <label>Fotos anhängen <small>(optional, mehrere möglich)</small><input type="file" name="photos" accept="image/*" multiple></label>
+  <div class="btns">
+   <button type="button" id="cancel" class="btn ghost">Abbrechen</button>
+   <button class="btn">Speichern</button>
+  </div>
+ </form>
+</dialog>
+
+<script>
+const MOODS=[["Sonnig","#E0B445"],["Ruhig","#7BAFA8"],["Hoffnung","#849C63"],["Anstrengend","#C97E4B"],["Schwer","#8B4A55"],["Traurig","#7469A0"]];
+const EVENTS=["Besuch da","Augen geöffnet","Physio / Mobilisation","Gespräch möglich","Ruhige Nacht","Kleiner Fortschritt","Musik gehört","Schwieriger Tag"];
+const WHO=["Team","Angehörige","Patient:in"];
+const KEY="intensivtagebuch.v1";
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const fmt=d=>new Date(d+"T12:00:00").toLocaleDateString("de-DE",{day:"numeric",month:"long",year:"numeric"});
+const today=()=>new Date(Date.now()-new Date().getTimezoneOffset()*6e4).toISOString().slice(0,10);
+
+let entries=[],view=new Date(),filter=null,CODE=sessionStorage.getItem("code")||"",pending="";
+const api=async(action,extra={})=>{
+ const r=await fetch("/api",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({action,code:CODE,...extra})});
+ const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.error||"Es ist ein Fehler aufgetreten.");return j};
+const logout=()=>{sessionStorage.removeItem("code");location.href=location.pathname};
+async function enter(code){
+ CODE=code;const j=await api("load");entries=j.entries;sessionStorage.setItem("code",CODE);
+ $("#login").hidden=true;$("#app").hidden=false;history.replaceState(null,"",location.pathname);renderList();renderCal()}
+function showCode(code,first){
+ pending=first?code:"";$("#qr").innerHTML="";
+ new QRCode($("#qr"),{text:location.origin+"/#"+code,width:200,height:200});
+ $("#codeTxt").textContent=code;$("#codeDlg").showModal()}
+
+/* Auswahl-Felder im Formular */
+const pill=(type,name,val,chk)=>`<label class="opt"><input type="${type}" name="${name}" value="${esc(val)}"${chk?" checked":""}><span>${esc(val)}</span></label>`;
+$("#who").innerHTML=WHO.map((w,i)=>pill("radio","who",w,i===0)).join("");
+$("#events").innerHTML=EVENTS.map(e=>pill("checkbox","events",e)).join("");
+$("#moods").innerHTML=MOODS.map(m=>`<label class="mood"><input type="radio" name="mood" value="${m[0]}"><i style="--c:${m[1]}"></i><span>${m[0]}</span></label>`).join("");
+
+/* Name des Buches */
+try{$("#bookName").value=localStorage.getItem(KEY+".name")||""}catch{}
+$("#bookName").oninput=e=>{try{localStorage.setItem(KEY+".name",e.target.value)}catch{}};
+
+/* Einträge */
+function renderList(){
+ const list=entries.filter(e=>!filter||e.date===filter).sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);
+ $("#list").innerHTML=list.length?list.map(e=>{
+  const m=MOODS.find(x=>x[0]===e.mood);
+  return `<article class="entry"><div class="meta">${m?`<span class="md" style="background:${m[1]}" title="${m[0]}"></span>`:""}<b>${esc(e.name)}</b><span class="tag">${esc(e.who)}</span><time>${fmt(e.date)}</time><button class="del" data-id="${e.id}">Löschen</button></div>
+  <p class="txt">${esc(e.text)}</p>${e.special?`<p class="special">✨ ${esc(e.special)}</p>`:""}
+  <div class="tags">${e.events.map(t=>`<span class="tag">${esc(t)}</span>`).join("")}</div>
+  <div class="photos">${e.photos.map(p=>`<img src="${p}" alt="Foto zum Eintrag">`).join("")}</div></article>`}).join("")
+  :`<p class="empty">${filter?"Für diesen Tag gibt es noch keinen Eintrag.":"Noch keine Einträge – schreibt den ersten!"}</p>`;
+}
+$("#list").onclick=async e=>{const b=e.target.closest(".del");
+ if(b&&confirm("Eintrag wirklich löschen?")){
+  try{entries=(await api("delete",{id:b.dataset.id})).entries;renderList();renderCal()}catch(x){alert(x.message)}}};
+
+/* Monatsansicht */
+function renderCal(){
+ const y=view.getFullYear(),m=view.getMonth(),first=new Date(y,m,1),off=(first.getDay()+6)%7,days=new Date(y,m+1,0).getDate();
+ const has=new Set(entries.map(e=>e.date));
+ let cells="<span></span>".repeat(off);
+ for(let d=1;d<=days;d++){const iso=`${y}-${String(m+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
+  cells+=`<button class="day${has.has(iso)?" has":""}${filter===iso?" sel":""}" data-d="${iso}">${d}</button>`}
+ $("#calendar").innerHTML=`<div class="calhead"><button class="nav" data-n="-1" aria-label="Voriger Monat">‹</button><b>${first.toLocaleDateString("de-DE",{month:"long",year:"numeric"})}</b><button class="nav" data-n="1" aria-label="Nächster Monat">›</button></div>
+ <div class="grid">${["Mo","Di","Mi","Do","Fr","Sa","So"].map(d=>`<i>${d}</i>`).join("")}${cells}</div>
+ ${filter?`<button class="btn ghost small" data-reset="1">Filter zurücksetzen</button>`:""}`;
+}
+$("#calendar").onclick=e=>{const b=e.target.closest("button");if(!b)return;
+ if(b.dataset.n)view=new Date(view.getFullYear(),view.getMonth()+Number(b.dataset.n),1);
+ else if(b.dataset.reset)filter=null;
+ else if(b.dataset.d)filter=filter===b.dataset.d?null:b.dataset.d;
+ renderCal();renderList()};
+$("#calBtn").onclick=()=>{const c=$("#calendar");c.hidden=!c.hidden;if(c.hidden){filter=null;renderList()}else renderCal()};
+
+/* Neuer Eintrag */
+const shrink=f=>new Promise(r=>{const img=new Image();
+ img.onload=()=>{const s=Math.min(1,900/Math.max(img.width,img.height)),c=document.createElement("canvas");
+  c.width=Math.round(img.width*s);c.height=Math.round(img.height*s);c.getContext("2d").drawImage(img,0,0,c.width,c.height);
+  URL.revokeObjectURL(img.src);r(c.toDataURL("image/jpeg",.75))};
+ img.onerror=()=>r(null);img.src=URL.createObjectURL(f)});
+$("#newBtn").onclick=()=>{const f=$("#f");f.reset();f.elements.date.value=today();$("#dlg").showModal()};
+$("#cancel").onclick=()=>$("#dlg").close();
+$("#f").onsubmit=async ev=>{ev.preventDefault();
+ const f=ev.target,fd=new FormData(f);
+ const photos=(await Promise.all([...f.elements.photos.files].map(shrink))).filter(Boolean);
+ const entry={name:fd.get("name").trim(),who:fd.get("who"),date:fd.get("date"),text:fd.get("text").trim(),
+  mood:fd.get("mood")||"",events:fd.getAll("events"),special:fd.get("special").trim(),photos};
+ try{entries=(await api("add",{entry})).entries;$("#dlg").close();renderList();renderCal()}catch(x){alert(x.message)}};
+
+/* PDF: Browser-Druckdialog, dort „Als PDF speichern“ wählen */
+$("#pdfBtn").onclick=()=>window.print();
+
+/* Anmeldung, Zugang, Abmelden, Löschen */
+$("#loginForm").onsubmit=async e=>{e.preventDefault();$("#msg").textContent="";
+ try{await enter($("#codeIn").value)}catch(x){$("#msg").textContent=x.message}};
+$("#createForm").onsubmit=async e=>{e.preventDefault();$("#msg").textContent="";
+ try{CODE="";const j=await api("create",{pin:$("#pinIn").value});$("#pinIn").value="";showCode(j.code,true)}
+ catch(x){$("#msg").textContent=x.message}};
+$("#codeClose").onclick=async()=>{$("#codeDlg").close();document.body.classList.remove("pc");
+ if(pending){const c=pending;pending="";try{await enter(c)}catch(x){$("#msg").textContent=x.message}}};
+$("#codePrint").onclick=()=>{document.body.classList.add("pc");window.print();setTimeout(()=>document.body.classList.remove("pc"),500)};
+$("#codeBtn").onclick=()=>showCode(CODE,false);
+$("#outBtn").onclick=logout;
+$("#wipeBtn").onclick=async()=>{
+ if(confirm("Das gesamte Tagebuch wird unwiderruflich gelöscht. Fortfahren?")){
+  try{await api("wipe");logout()}catch(x){alert(x.message)}}};
+
+const start=decodeURIComponent(location.hash.slice(1))||CODE;
+if(start)enter(start).catch(x=>{sessionStorage.removeItem("code");CODE="";$("#msg").textContent=x.message});
+renderList();
+</script>
+</body>
+</html>
